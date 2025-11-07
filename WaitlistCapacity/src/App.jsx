@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import 'bootstrap/dist/css/bootstrap.css'
-import './App.css'
 
 function App() {
   const [Kursy, setKursy] = useState([
@@ -16,7 +15,12 @@ function App() {
     if (ImieNazwisko == '') { console.log("Imie i Nazwisko są puste") }
     else { 
       if (Kursy[WybranyKurs-1].enrolled == Kursy[WybranyKurs-1].capacity) { console.log(`Brak miejsc: ${Kursy[WybranyKurs-1].name}`) }
-      else {console.log(`Zapisano: ${ImieNazwisko} na ${Kursy[WybranyKurs-1].name}`)}
+      else {
+        console.log(`Zapisano: ${ImieNazwisko} na ${Kursy[WybranyKurs-1].name}`)
+        setKursy(Kursy.map(kurs => 
+          kurs.id === WybranyKurs ? {...kurs, enrolled: kurs.enrolled + 1} : kurs
+        )) 
+      }
     }
   }
 
@@ -24,8 +28,9 @@ function App() {
     setImieNazwisko(e.target.value)
   }
   const changeKurs = (e) => {
-    setWybranyKurs(e.target.value)
+    setWybranyKurs(Number(e.target.value))
   }
+
 
   return (
     <>
